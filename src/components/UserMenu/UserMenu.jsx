@@ -14,14 +14,8 @@ export default function UserMenu() {
 
   return (
     <div className={css.wrapper}>
-      <p className={css.userAvatar}>
-        {user.avatar ? (
-          <img src={user.avatar_url} alt="avatar" />
-        ) : (
-          <FiUser size={24} />
-        )}
-      </p>
-      <p className={css.username}>{user.name}</p>
+      <FiUser size={24} />
+      {/* <p className={css.username}>{user.name}</p> */}
       <button type="button" onClick={handleLogout}>
         Logout
       </button>
