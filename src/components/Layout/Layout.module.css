@@ -1,0 +1,44 @@
+.container {
+    width: 1376px;
+    height: 730px;
+    margin: 30px auto;
+    border-radius: 30px;
+}
+
+.homeBackground {
+    background-color: var(--green);
+    background-image: url('../../images/Rectangle.jpg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    color: #fbfbfb;
+    overflow: hidden;
+}
+
+.defaultBackground {
+    background-color: var(--light-grey);
+}
+
+
+/* @media (max-width: 768px) {
+    .container {
+        width: 765px;
+        height: auto;
+    }
+
+    .homeBackground {
+        background-size: cover;
+        background-position: center;
+    }
+}
+
+@media (max-width: 1440px) {
+    .container {
+        width: 1400px;
+        height: auto;
+    }
+
+    .homeBackground {
+        background-size: cover;
+        background-position: center;
+    }
+} */

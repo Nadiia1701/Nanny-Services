@@ -5,10 +5,13 @@ import { FiArrowUpRight } from 'react-icons/fi';
 export default function HomePage() {
   return (
     <div className={css.container}>
-      <h1 className={css.title}>Make Life Easier for the Family:</h1>
-      <p className={css.text}>Find Babysitters Online for All Occasions</p>
+      <div className={css.textContainer}>
+        <h1 className={css.title}>Make Life Easier for the Family:</h1>
+        <p className={css.text}>Find Babysitters Online for All Occasions</p>
+      </div>
       <Link className={css.navBtn} to="/nannies">
-        Get started <FiArrowUpRight />
+        <span className={css.btnText}>Get started</span>{' '}
+        <FiArrowUpRight size={20} />
       </Link>
     </div>
   );

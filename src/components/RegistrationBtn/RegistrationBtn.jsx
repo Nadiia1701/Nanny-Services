@@ -1,8 +1,8 @@
-import LoginForm from '../LogInForm/LogInForm';
+import RegistrationForm from '../RegistrationForm/RegistrationForm';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { AiOutlineClose } from 'react-icons/ai';
-import css from './LogInBtn.module.css';
+import css from './RegistrationBtn.module.css';
 
 const customStyles = {
   content: {
@@ -12,9 +12,8 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: 'rgba(251, 251, 251, 1)',
+    backgroundColor: '#000',
     border: 'none',
-    borderRadius: '30px',
     maxWidth: '90%',
     maxHeight: '90%',
     overflow: 'auto',
@@ -23,7 +22,7 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const LogInBtn = () => {
+const RegistrationBtn = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
@@ -31,15 +30,15 @@ const LogInBtn = () => {
 
   return (
     <div className={css.container}>
-      <button className={css.logInBtn} onClick={openModal}>
-        Log In
+      <button className={css.regBtn} onClick={openModal}>
+        Registration
       </button>
       <Modal
         isOpen={isModalOpen}
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <LoginForm />
+        <RegistrationForm />
         <button onClick={closeModal} className={css.closeBtn}>
           <AiOutlineClose />
         </button>
@@ -48,4 +47,4 @@ const LogInBtn = () => {
   );
 };
 
-export default LogInBtn;
+export default RegistrationBtn;

@@ -4,14 +4,15 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
-import { logIn } from '../../redux/auth/operations';
+import { register } from '../../redux/auth/operations';
 import { Toaster } from 'react-hot-toast';
 import { FiEye } from 'react-icons/fi';
 import { FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
-import css from './LogInForm.module.css';
+import css from './RegistrationForm.module.css';
 
 const schema = Yup.object().shape({
+  name: Yup.string().required('Name is required'),
   email: Yup.string()
     .email()
     .matches('^(?!.*@[^,]*,)', 'Invalid email')
@@ -26,7 +27,7 @@ const schema = Yup.object().shape({
     .matches('[a-zA-Z]', 'Password can only contain Latin letters.'),
 });
 
-export default function LoginForm() {
+export default function RegistrationForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -40,6 +41,7 @@ export default function LoginForm() {
     resolver: yupResolver(schema),
     mode: 'onBlur',
     defaultValues: {
+      name: '',
       email: '',
       password: '',
     },
@@ -47,15 +49,15 @@ export default function LoginForm() {
 
   const onSubmit = async values => {
     try {
-      await dispatch(logIn(values)).unwrap();
-      toast.success('Successfully logged in!');
+      await dispatch(register(values)).unwrap();
+      toast.success('Successfully registered!');
       reset();
       navigate('/nannies');
     } catch (error) {
-      toast.error(error?.message || 'Log in failed');
+      toast.error(error?.message || 'Registration failed');
     }
   };
-
+  const nameClassName = `${css.input} ${errors.name ? css.errorInput : ''}`;
   const emailClassName = `${css.input} ${errors.email ? css.errorInput : ''}`;
   const passwordClassName = `${css.input} ${
     errors.password ? css.errorInput : ''
@@ -69,11 +71,33 @@ export default function LoginForm() {
         autoComplete="on"
         className={css.form}
       >
-        <h2 className={css.title}>Log In</h2>
+        <h2 className={css.title}>Registration</h2>
         <p className={css.info}>
-          Welcome back! Please enter your credentials to access your account and
-          continue your babysitter search.
+          Thank you for your interest in our platform! In order to register, we
+          need some information. Please provide us with the following
+          information.
         </p>
+        <div className={css.wrap}>
+          <Controller
+            name="name"
+            control={control}
+            render={({ field }) => {
+              return (
+                <input
+                  {...field}
+                  className={nameClassName}
+                  type="name"
+                  placeholder="Name"
+                  autoComplete="name"
+                  aria-invalid={errors.name ? 'true' : 'false'}
+                />
+              );
+            }}
+          />
+          {errors.name && (
+            <span className={css.errorMessage}>{errors.name.message}</span>
+          )}
+        </div>
         <div className={css.wrap}>
           <Controller
             name="email"
@@ -126,7 +150,7 @@ export default function LoginForm() {
           )}
         </div>
         <button className={css.btn} type="submit" disabled={isSubmitting}>
-          Log In
+          Sign Up
         </button>
       </form>
     </div>

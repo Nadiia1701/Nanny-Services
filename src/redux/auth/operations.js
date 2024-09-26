@@ -1,16 +1,24 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../../utils/firebase.js';
 
 // Регистрация пользователя
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ email, password }, thunkAPI) => {
+  async ({ email, password, name }, thunkAPI) => {
     try {
+      // Регистрируем пользователя в Firebase
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      return { email: user.email, uid: user.uid };
+      
+      // Добавляем дополнительную информацию, например, имя пользователя
+      await updateProfile(user, {
+        displayName: name
+      });
+      
+      return { email: user.email, uid: user.uid, displayName: user.displayName };
     } catch (error) {
+      // Обрабатываем ошибки
       return thunkAPI.rejectWithValue(error.message);
     }
   }
