@@ -19,6 +19,9 @@ const customStyles = {
     maxHeight: '90%',
     overflow: 'auto',
   },
+  overlay: {
+    backgroundColor: 'rgba(11, 11, 11, 0.6)',
+  },
 };
 
 Modal.setAppElement('#root');

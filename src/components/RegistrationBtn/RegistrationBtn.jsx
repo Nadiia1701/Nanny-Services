@@ -12,11 +12,15 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(251, 251, 251, 1)',
     border: 'none',
+    borderRadius: '30px',
     maxWidth: '90%',
     maxHeight: '90%',
     overflow: 'auto',
+  },
+  overlay: {
+    backgroundColor: 'rgba(11, 11, 11, 0.6)',
   },
 };
 
