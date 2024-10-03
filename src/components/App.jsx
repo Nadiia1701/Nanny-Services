@@ -1,9 +1,12 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout/Layout.jsx';
 import Loader from './Loader/Loader.jsx';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import PrivateRoute from './PrivateRoute.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshUser } from '../redux/auth/operations';
+import { selectIsRefreshing } from '../redux/auth/selectors';
 
 const HomePage = lazy(() => import('../pages/HomePage/HomePage.jsx'));
 const NanniesPage = lazy(() => import('../pages/NanniesPage/NanniesPage.jsx'));
@@ -12,7 +15,16 @@ const FavoritesPage = lazy(() =>
 );
 
 function App() {
-  return (
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
+  return isRefreshing ? (
+    <p>Refreshing user, please wait...</p>
+  ) : (
     <Layout>
       <Suspense
         fallback={

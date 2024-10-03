@@ -3,8 +3,9 @@
     align-items: center;
     column-gap: 30px;
     margin-right: 80px;
+    color: rgba(251, 251, 251, 1);
 }
 
 .link:hover {
-    color: var(--green);
+    color: var(--light-grey);
 }

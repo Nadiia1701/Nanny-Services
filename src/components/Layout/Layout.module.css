@@ -18,6 +18,10 @@
     background-color: var(--light-grey);
 }
 
+.navBackground {
+    background-color: var(--green);
+}
+
 
 /* @media (max-width: 768px) {
     .container {

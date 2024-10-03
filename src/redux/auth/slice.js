@@ -5,7 +5,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     user: {
-      name: null,
+      displayName: null,
       email: null,
       password: null,  
     },
@@ -27,7 +27,7 @@ const authSlice = createSlice({
       })
       .addCase(logOut.fulfilled, state => {
         state.user = {
-            name: null,
+            displayName: null,
             email: null,
             password: null,
         };

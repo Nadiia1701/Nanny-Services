@@ -1,24 +1,23 @@
-.loadMoreBtn {
+.btn {
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 200px;
     padding: 16px 32px;
-    border: 1px solid var(--green);
-    color: var(--white);
+    border: 1px solid var(--Gray-light, #dadde1);
+    color: var(--Main, #101828);
     font-family: Inter;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
     line-height: 24px;
     letter-spacing: -0.08px;
-    background: var(--green);
+    background: transparent;
     outline: none;
     transition: border 0.3s ease-in-out;
     margin-top: 30px;
 }
 
-.loadMoreBtn:hover {
-    background: var(--green-hover);
-    border: 1px solid var(--green-hover);
+.btn:hover {
+    border: 1px solid var(--Button-Hover, #d84343);
 }
