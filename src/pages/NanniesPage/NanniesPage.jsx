@@ -24,14 +24,10 @@ export default function NanniesPage() {
 
   // Первая загрузка данных
   useEffect(() => {
-    console.log('Nannies:', nannies);
-    console.log('Last key:', lastKey);
-    console.log('Has Next Page:', hasNextPage);
-
     if (nannies.length === 0) {
       dispatch(fetchNannies({ lastKey: null, limit }));
     }
-  }, [dispatch, nannies, lastKey, hasNextPage, limit]); // Обновляем, когда меняются эти зависимости
+  }, [dispatch, nannies, lastKey, hasNextPage, limit]);
 
   const loadMoreNannies = () => {
     if (hasNextPage && !isLoading) {
@@ -44,15 +40,17 @@ export default function NanniesPage() {
       {error && <ErrorMessage />}
       {isLoading && !error && <Loader />}
       {nannies.length > 0 && <NanniesList items={nannies} />}
-      {hasNextPage && (
-        <button
-          className={css.loadMoreBtn}
-          onClick={loadMoreNannies}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Loading...' : 'Load More'}
-        </button>
-      )}
+      <div className={css.btnContainer}>
+        {hasNextPage && (
+          <button
+            className={css.loadMoreBtn}
+            onClick={loadMoreNannies}
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader /> : 'Load More'}
+          </button>
+        )}
+      </div>
     </div>
   );
 }

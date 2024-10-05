@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { selectNannies } from '../../redux/nannies/selectors';
 
 export default function TrucksList() {
-  const items = useSelector(selectNannies);
+  const item = useSelector(selectNannies);
 
   return (
     <ul className={css.container}>
-      {items.map((item, index) => (
+      {item.map((item, index) => (
         <li key={`${item.id}-${index}`}>
           <Nanny item={item} />
         </li>

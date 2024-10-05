@@ -1,0 +1,63 @@
+.wrapper {
+    width: 482px;
+}
+.nameContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.avatar {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 60px;
+    background: rgba(16, 57, 49, 0.2);
+    color: rgba(16, 57, 49, 1);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+}
+
+.name {
+    color: #11101c;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+}
+
+.starRating {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.starIcon {
+    color: rgba(255, 197, 49, 1);
+    width: 16px;
+    height: 16px;
+}
+
+.rating {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 129%;
+    color: #11101c;
+}
+
+.commentWrapper {
+    margin-bottom: 20px;
+}
+
+.comment {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 125%;
+    color: rgba(17, 16, 28, 0.5);
+    font-style: normal;
+}

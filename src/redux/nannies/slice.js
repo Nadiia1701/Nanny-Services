@@ -29,7 +29,7 @@ const nanniesSlice = createSlice({
             // Добавляем новые элементы в состояние
             state.items = [...new Map([...state.items, ...items].map((item) => [item.key, item])).values()];
 
-            // Сохраняем последний ключ для следующей пагинации
+            // Сохраняем последний ключ для следующей пагинации, выражение items.length - 1 используется, чтобы получить последний элемент массива items
             state.lastKey = items.length > 0 ? items[items.length - 1].key : null;
 
             // Проверяем, есть ли еще данные для загрузки
