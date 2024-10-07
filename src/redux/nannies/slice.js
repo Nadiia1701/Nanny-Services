@@ -10,7 +10,13 @@ const nanniesSlice = createSlice({
     lastKey: null, // Хранит ключ последней загруженной записи
     hasNextPage: true, // Флаг для проверки, есть ли еще данные
   },
-  reducers: {},
+  reducers: {
+    resetNannies: (state) => {
+      state.items = [];
+      state.lastKey = null;
+      state.hasNextPage = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNannies.pending, (state) => {
@@ -45,4 +51,5 @@ const nanniesSlice = createSlice({
   },
 });
 
+export const { resetNannies } = nanniesSlice.actions;
 export const nanniesReducer = nanniesSlice.reducer;

@@ -4,7 +4,7 @@ import { AiFillStar } from 'react-icons/ai'; // Рейтинг
 import { FaMapLocationDot } from 'react-icons/fa6'; // Локация
 import { FaRegHeart } from 'react-icons/fa'; // Сердечко
 import NannyReviews from '../NannyReviews/NannyReviews';
-import MakeAnAppointmentBtn from '../MakeAnAppointmentBtn/MakeAnAppointmentBtn'; // Компонент для модального окна с формой
+import MakeAnAppointmentBtn from '../MakeAnAppointmentBtn/MakeAnAppointmentBtn';
 
 export default function Nanny({
   item: {

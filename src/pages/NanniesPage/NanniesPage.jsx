@@ -38,7 +38,6 @@ export default function NanniesPage() {
   return (
     <div>
       {error && <ErrorMessage />}
-      {isLoading && !error && <Loader />}
       {nannies.length > 0 && <NanniesList items={nannies} />}
       <div className={css.btnContainer}>
         {hasNextPage && (
@@ -47,7 +46,11 @@ export default function NanniesPage() {
             onClick={loadMoreNannies}
             disabled={isLoading}
           >
-            {isLoading ? <Loader /> : 'Load More'}
+            {isLoading ? (
+              <Loader width="20" height="20" color="var(--white)" />
+            ) : (
+              'Load More'
+            )}
           </button>
         )}
       </div>

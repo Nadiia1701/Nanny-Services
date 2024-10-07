@@ -1,6 +1,6 @@
 import { ThreeCircles } from 'react-loader-spinner';
 
-export default function Loader({ width, height, color = '#475467' }) {
+export default function Loader({ width, height, color = '#4fa94d' }) {
   return (
     <div>
       <ThreeCircles
