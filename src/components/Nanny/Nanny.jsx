@@ -108,7 +108,7 @@ export default function Nanny({
           <div className={css.reviews}>
             {showFullReviews && <NannyReviews reviews={reviews} />}
             {showFullReviews ? (
-              <MakeAnAppointmentBtn />
+              <MakeAnAppointmentBtn nannyName={name} avatarUrl={avatar_url} />
             ) : (
               <button onClick={toggleReviews} className={css.readMoreBtn}>
                 Read more

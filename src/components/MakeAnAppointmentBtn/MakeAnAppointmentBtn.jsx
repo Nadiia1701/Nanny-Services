@@ -26,7 +26,7 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const MakeAnAppointmentBtn = () => {
+const MakeAnAppointmentBtn = ({ nannyName, avatarUrl }) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const openModal = () => setModalOpen(true);
@@ -42,7 +42,7 @@ const MakeAnAppointmentBtn = () => {
         onRequestClose={closeModal}
         style={customStyles}
       >
-        <MakeAnAppointmentForm />
+        <MakeAnAppointmentForm nannyName={nannyName} avatarUrl={avatarUrl} />
         <button onClick={closeModal} className={css.closeBtn}>
           <AiOutlineClose />
         </button>

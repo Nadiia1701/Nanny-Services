@@ -1,36 +1,27 @@
 import { Controller, useForm } from 'react-hook-form';
-import { useState } from 'react';
-import * as Yup from 'yup';
+import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { register } from '../../redux/auth/operations';
 import { Toaster } from 'react-hot-toast';
-import { FiEye } from 'react-icons/fi';
-import { FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import css from './MakeAnAppointmentForm.module.css';
+import TimeDropdown from '../TimeDropdown/TimeDropdown';
 
-const schema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  email: Yup.string()
-    .email()
-    .matches('^(?!.*@[^,]*,)', 'Invalid email')
-    .required('Email is required'),
-  password: Yup.string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[A-Za-z])(?=.*\d)/,
-      'Password must contain at least one letter and one number'
-    )
-    .matches('[a-zA-Z]', 'Password can only contain Latin letters.'),
+const schema = yup.object().shape({
+  address: yup.string().required('Address is required'),
+  phone: yup
+    .string()
+    .matches(/^\+380\d{9}$/, 'Phone must be in +380 format')
+    .required('Phone is required'),
+  childAge: yup.string().required("Child's age is required"),
+  meetingTime: yup.string().required('Meeting time is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  parentName: yup.string().required("Parent's name is required"),
+  comment: yup.string(),
 });
 
-export default function MakeAnAppointmentForm() {
-  const dispatch = useDispatch();
+export default function MakeAnAppointmentForm({ nannyName, avatarUrl }) {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
 
   const {
     control,
@@ -41,26 +32,48 @@ export default function MakeAnAppointmentForm() {
     resolver: yupResolver(schema),
     mode: 'onBlur',
     defaultValues: {
-      name: '',
+      address: '',
+      phone: '',
+      childAge: '',
+      meetingTime: '',
       email: '',
-      password: '',
+      parentName: '',
+      comment: '',
     },
   });
 
   const onSubmit = async values => {
     try {
-      await dispatch(register(values)).unwrap();
-      toast.success('Successfully registered!');
+      console.log(values);
       reset();
       navigate('/nannies');
     } catch (error) {
-      toast.error(error?.message || 'Registration failed');
+      if (error.response) {
+        toast.error(error.response.data.message || 'Appointment failed');
+      } else {
+        toast.error(error.message || 'Appointment failed');
+      }
     }
   };
-  const nameClassName = `${css.input} ${errors.name ? css.errorInput : ''}`;
+
+  const addressClassName = `${css.inputHalf} ${
+    errors.address ? css.errorInput : ''
+  }`;
+  const phoneClassName = `${css.inputHalf} ${
+    errors.phone ? css.errorInput : ''
+  }`;
+  const childAgeClassName = `${css.inputHalf} ${
+    errors.childAge ? css.errorInput : ''
+  }`;
+  const meetingTimeClassName = `${css.inputHalf} ${
+    errors.meetingTime ? css.errorInput : ''
+  }`;
+  const parentNameClassName = `${css.input} ${
+    errors.parentName ? css.errorInput : ''
+  }`;
   const emailClassName = `${css.input} ${errors.email ? css.errorInput : ''}`;
-  const passwordClassName = `${css.input} ${
-    errors.password ? css.errorInput : ''
+  const commentClassName = `${css.input} ${
+    errors.comment ? css.errorInput : ''
   }`;
 
   return (
@@ -77,26 +90,99 @@ export default function MakeAnAppointmentForm() {
           to creating a safe and comfortable environment. Fill out the form
           below so we can match you with the perfect care partner.
         </p>
-        <div className={css.wrap}>
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => {
-              return (
-                <input
-                  {...field}
-                  className={nameClassName}
-                  type="name"
-                  placeholder="Name"
-                  autoComplete="name"
-                  aria-invalid={errors.name ? 'true' : 'false'}
+        <div className={css.nannyDetails}>
+          <img src={avatarUrl} alt={nannyName} className={css.nannyAvatar} />
+          <div className={css.nameContainer}>
+            <span className={css.nanny}>Your nanny</span>
+            <h3 className={css.nannyName}>{nannyName}</h3>
+          </div>
+        </div>
+        <div className={css.addressPhoneContainer}>
+          <div className={css.wrap}>
+            <Controller
+              name="address"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <input
+                    {...field}
+                    className={addressClassName}
+                    type="address"
+                    placeholder="Address"
+                    autoComplete="address"
+                    aria-invalid={errors.address ? 'true' : 'false'}
+                  />
+                );
+              }}
+            />
+            {errors.address && (
+              <span className={css.errorMessage}>{errors.address.message}</span>
+            )}
+          </div>
+          <div className={css.wrap}>
+            <Controller
+              name="phone"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <input
+                    {...field}
+                    className={phoneClassName}
+                    type="phone"
+                    placeholder="+380"
+                    autoComplete="phone"
+                    aria-invalid={errors.phone ? 'true' : 'false'}
+                  />
+                );
+              }}
+            />
+            {errors.phone && (
+              <span className={css.errorMessage}>{errors.phone.message}</span>
+            )}
+          </div>
+        </div>
+        <div className={css.ageTimeContainer}>
+          <div className={css.wrap}>
+            <Controller
+              name="childAge"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <input
+                    {...field}
+                    className={childAgeClassName}
+                    type="text"
+                    placeholder="Child's Age"
+                    autoComplete="childAge"
+                    aria-invalid={errors.childAge ? 'true' : 'false'}
+                  />
+                );
+              }}
+            />
+            {errors.childAge && (
+              <span className={css.errorMessage}>
+                {errors.childAge.message}
+              </span>
+            )}
+          </div>
+          <div className={css.wrap}>
+            <Controller
+              name="meetingTime"
+              control={control}
+              render={({ field }) => (
+                <TimeDropdown
+                  value={field.value}
+                  onChange={field.onChange}
+                  className={meetingTimeClassName}
                 />
-              );
-            }}
-          />
-          {errors.name && (
-            <span className={css.errorMessage}>{errors.name.message}</span>
-          )}
+              )}
+            />
+            {errors.meetingTime && (
+              <span className={css.errorMessage}>
+                {errors.meetingTime.message}
+              </span>
+            )}
+          </div>
         </div>
         <div className={css.wrap}>
           <Controller
@@ -120,37 +206,52 @@ export default function MakeAnAppointmentForm() {
           )}
         </div>
         <div className={css.wrap}>
-          <div className={css.passwordBox}>
-            <Controller
-              name="password"
-              control={control}
-              render={({ field }) => {
-                return (
-                  <input
-                    {...field}
-                    type={showPassword ? 'text' : 'password'}
-                    className={passwordClassName}
-                    autoComplete="current-password"
-                    placeholder="Password"
-                    aria-invalid={errors.password ? 'true' : 'false'}
-                  />
-                );
-              }}
-            />
-            <div
-              className={css.iconeye}
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? 'Hide password' : 'Show password'}
-            >
-              {showPassword ? <FiEye /> : <FiEyeOff />}
-            </div>
-          </div>
-          {errors.password && (
-            <span className={css.errorMessage}>{errors.password.message}</span>
+          <Controller
+            name="parentName"
+            control={control}
+            render={({ field }) => {
+              return (
+                <input
+                  {...field}
+                  className={parentNameClassName}
+                  type="text"
+                  placeholder="Father's or mother's name"
+                  autoComplete="parentName"
+                  aria-invalid={errors.parentName ? 'true' : 'false'}
+                />
+              );
+            }}
+          />
+          {errors.parentName && (
+            <span className={css.errorMessage}>
+              {errors.parentName.message}
+            </span>
           )}
         </div>
+        <div className={css.wrap}>
+          <Controller
+            name="comment"
+            control={control}
+            render={({ field }) => {
+              return (
+                <textarea
+                  {...field}
+                  className={commentClassName}
+                  type="comment"
+                  placeholder="Comment"
+                  autoComplete="comment"
+                  aria-invalid={errors.comment ? 'true' : 'false'}
+                />
+              );
+            }}
+          />
+          {errors.comment && (
+            <span className={css.errorMessage}>{errors.comment.message}</span>
+          )}
+        </div>
+
         <button className={css.btn} type="submit" disabled={isSubmitting}>
-          Sign Up
+          Send
         </button>
       </form>
     </div>
