@@ -1,28 +1,41 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setSortBy } from '../../redux/filter/slice';
+import { useSelector, useDispatch } from 'react-redux';
 import { selectSortBy } from '../../redux/filter/selectors';
-import { fetchNannies } from '../../redux/nannies/operations';
+import { setSortBy } from '../../redux/filter/slice';
+import css from './FilterDropdown.module.css';
 
 const FilterDropdown = () => {
   const dispatch = useDispatch();
-  const sortBy = useSelector(selectSortBy);
+  const currentSort = useSelector(selectSortBy);
 
-  const handleFilterChange = event => {
-    dispatch(setSortBy(event.target.value));
-    dispatch(fetchNannies({ lastKey: null, limit: 3 })); // Обновляем данные при изменении фильтра
+  const options = [
+    { value: 'name-asc', label: 'A to Z' },
+    { value: 'name-desc', label: 'Z to A' },
+    { value: 'price_less_than_10', label: 'Less than 10$' },
+    { value: 'price_greater_than_10', label: 'Greater than 10$' },
+    { value: 'popular', label: 'Popular' },
+    { value: 'not_popular', label: 'Not popular' },
+    { value: 'show-all', label: 'Show all' },
+  ];
+
+  const handleChange = event => {
+    const selectedValue = event.target.value;
+    dispatch(setSortBy(selectedValue)); // Отправляем выбранное значение фильтра в Redux
   };
 
   return (
-    <div>
-      <label>Filters</label>
-      <select value={sortBy} onChange={handleFilterChange}>
-        <option value="A to Z">A to Z</option>
-        <option value="Z to A">Z to A</option>
-        <option value="Less than 10$">Less than 10$</option>
-        <option value="Greater than 10$">Greater than 10$</option>
-        <option value="Popular">Popular</option>
-        <option value="Not popular">Not popular</option>
-        <option value="Show all">Show all</option>
+    <div className={css.filterDropdown}>
+      <label htmlFor="filter-select">Filters</label>
+      <select
+        id="filter-select"
+        value={currentSort}
+        onChange={handleChange}
+        className={css.filterDropdownSelect}
+      >
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
       </select>
     </div>
   );

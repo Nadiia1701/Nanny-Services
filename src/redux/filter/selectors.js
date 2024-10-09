@@ -1,1 +1,1 @@
-export const selectSortBy = (state) => state.filters.sortBy;
+export const selectSortBy = (state) => state.filter.sortBy;
