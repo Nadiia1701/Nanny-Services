@@ -52,45 +52,42 @@ const getNannies = async ({ lastKey = null, limit = 3, filter = {} }) => {
   console.log('Received filter:', filter);    // Лог для проверки значения filter
 
   let nanniesQuery;
-
-  // Применяем фильтр сортировки
   if (filter.sortBy) {
-switch (filter.sortBy) {
-  case 'name-asc':
-    nanniesQuery = query(ref(db, '/'), orderByChild('name'), limitToFirst(limit));
-    break;
-  case 'name-desc':
-    nanniesQuery = query(ref(db, '/'), orderByChild('name'), limitToLast(limit));
-    break;
-  case 'price_less_than_10':
-    nanniesQuery = query(ref(db, '/'), orderByChild('price_per_hour'), endAt(10), limitToFirst(limit));
-    break;
-  case 'price_greater_than_10':
-    nanniesQuery = query(ref(db, '/'), orderByChild('price_per_hour'), startAt(10), limitToFirst(limit));
-    break;
-  case 'rating-popular':
-    nanniesQuery = query(ref(db, '/'), orderByChild('rating'), startAt(4), limitToFirst(limit));
-    break;
-  case 'rating-not-popular':
-    nanniesQuery = query(ref(db, '/'), orderByChild('rating'), endAt(3), limitToFirst(limit));
-    break;
-  case 'show-all':
+    switch (filter.sortBy) {
+      case 'name-asc':
+        nanniesQuery = query(ref(db, '/'), orderByChild('name'), limitToFirst(limit));
+        break;
+      case 'name-desc':
+        nanniesQuery = query(ref(db, '/'), orderByChild('name'), limitToLast(limit));
+        break;
+      case 'price_less_than_10':
+        nanniesQuery = query(ref(db, '/'), orderByChild('price_per_hour'), endAt(10), limitToFirst(limit));
+        break;
+      case 'price_greater_than_10':
+        nanniesQuery = query(ref(db, '/'), orderByChild('price_per_hour'), startAt(10), limitToFirst(limit));
+        break;
+      case 'rating-popular':
+        nanniesQuery = query(ref(db, '/'), orderByChild('rating'), startAt(4), limitToFirst(limit));
+        break;
+      case 'rating-not-popular':
+        nanniesQuery = query(ref(db, '/'), orderByChild('rating'), endAt(3), limitToFirst(limit));
+        break;
+      case 'show-all':
+        nanniesQuery = query(ref(db, '/'), orderByKey(), limitToFirst(limit));
+        break;
+      default:
+        nanniesQuery = query(ref(db, '/'), orderByKey(), limitToFirst(limit));
+  }
+  } else {
     nanniesQuery = query(ref(db, '/'), orderByKey(), limitToFirst(limit));
-    break;
-  default:
-    nanniesQuery = query(ref(db, '/'), orderByKey(), limitToFirst(limit));
-}
-} else {
-  nanniesQuery = query(ref(db, '/'), orderByKey(), limitToFirst(limit));
-}
+  }
+  
+  if (lastKey) {
+    nanniesQuery = query(nanniesQuery, startAfter(lastKey));
+  }
 
-// Добавляем lastKey для пагинации
-if (lastKey) {
-  nanniesQuery = query(nanniesQuery, startAfter(lastKey));
-}
-
-// Логирование запроса
-console.log(`Query constructed:`, nanniesQuery);
+  // Логирование запроса
+  console.log(`Query constructed:`, nanniesQuery);
 
   try {
     const snapshot = await get(nanniesQuery);
