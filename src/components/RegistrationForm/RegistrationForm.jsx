@@ -2,21 +2,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { register } from '../../redux/auth/operations';
-import { Toaster } from 'react-hot-toast';
-import { FiEye } from 'react-icons/fi';
-import { FiEyeOff } from 'react-icons/fi';
+import toast, { Toaster } from 'react-hot-toast';
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from '../../utils/firebase'; // Убедитесь, что путь к файлу с конфигурацией Firebase корректный
 import css from './RegistrationForm.module.css';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('Name is required'),
-  email: Yup.string()
-    .email()
-    .matches('^(?!.*@[^,]*,)', 'Invalid email')
-    .required('Email is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string()
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters')
@@ -28,7 +23,6 @@ const schema = Yup.object().shape({
 });
 
 export default function RegistrationForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,15 +42,23 @@ export default function RegistrationForm() {
   });
 
   const onSubmit = async values => {
+    const { name, email, password } = values;
+
     try {
-      await dispatch(register(values)).unwrap();
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      await updateProfile(userCredential.user, { displayName: name });
       toast.success('Successfully registered!');
       reset();
       navigate('/nannies');
     } catch (error) {
-      toast.error(error?.message || 'Registration failed');
+      toast.error(error.message || 'Registration failed');
     }
   };
+
   const nameClassName = `${css.input} ${errors.name ? css.errorInput : ''}`;
   const emailClassName = `${css.input} ${errors.email ? css.errorInput : ''}`;
   const passwordClassName = `${css.input} ${
@@ -81,18 +83,16 @@ export default function RegistrationForm() {
           <Controller
             name="name"
             control={control}
-            render={({ field }) => {
-              return (
-                <input
-                  {...field}
-                  className={nameClassName}
-                  type="name"
-                  placeholder="Name"
-                  autoComplete="name"
-                  aria-invalid={errors.name ? 'true' : 'false'}
-                />
-              );
-            }}
+            render={({ field }) => (
+              <input
+                {...field}
+                className={nameClassName}
+                type="text"
+                placeholder="Name"
+                autoComplete="name"
+                aria-invalid={errors.name ? 'true' : 'false'}
+              />
+            )}
           />
           {errors.name && (
             <span className={css.errorMessage}>{errors.name.message}</span>
@@ -102,18 +102,16 @@ export default function RegistrationForm() {
           <Controller
             name="email"
             control={control}
-            render={({ field }) => {
-              return (
-                <input
-                  {...field}
-                  className={emailClassName}
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  aria-invalid={errors.email ? 'true' : 'false'}
-                />
-              );
-            }}
+            render={({ field }) => (
+              <input
+                {...field}
+                className={emailClassName}
+                type="email"
+                placeholder="Email"
+                autoComplete="email"
+                aria-invalid={errors.email ? 'true' : 'false'}
+              />
+            )}
           />
           {errors.email && (
             <span className={css.errorMessage}>{errors.email.message}</span>
@@ -124,18 +122,16 @@ export default function RegistrationForm() {
             <Controller
               name="password"
               control={control}
-              render={({ field }) => {
-                return (
-                  <input
-                    {...field}
-                    type={showPassword ? 'text' : 'password'}
-                    className={passwordClassName}
-                    autoComplete="current-password"
-                    placeholder="Password"
-                    aria-invalid={errors.password ? 'true' : 'false'}
-                  />
-                );
-              }}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type={showPassword ? 'text' : 'password'}
+                  className={passwordClassName}
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  aria-invalid={errors.password ? 'true' : 'false'}
+                />
+              )}
             />
             <div
               className={css.iconeye}

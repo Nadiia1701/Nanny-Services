@@ -1,0 +1,27 @@
+.btnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loadMoreBtn {
+    padding: 14px 40px;
+    color: var(--white);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.08px;
+    border: 1px solid var(--green);
+    border-radius: 30px;
+    background: var(--green);
+    outline: none;
+    transition: border 0.3s ease-in-out;
+    margin-top: 30px;
+    margin-bottom: 80px;
+}
+
+.loadMoreBtn:hover {
+    background: var(--green-hover);
+    border: 1px solid var(--green-hover);
+}

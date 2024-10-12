@@ -2,20 +2,15 @@ import { Controller, useForm } from 'react-hook-form';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import toast from 'react-hot-toast';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../redux/auth/operations';
-import { Toaster } from 'react-hot-toast';
-import { FiEye } from 'react-icons/fi';
-import { FiEyeOff } from 'react-icons/fi';
+import toast, { Toaster } from 'react-hot-toast';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../utils/firebase'; // Убедитесь, что путь к файлу с конфигурацией Firebase корректный
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import css from './LogInForm.module.css';
 
 const schema = Yup.object().shape({
-  email: Yup.string()
-    .email()
-    .matches('^(?!.*@[^,]*,)', 'Invalid email')
-    .required('Email is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
   password: Yup.string()
     .required('Password is required')
     .min(8, 'Password must be at least 8 characters')
@@ -27,7 +22,6 @@ const schema = Yup.object().shape({
 });
 
 export default function LoginForm() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -46,13 +40,15 @@ export default function LoginForm() {
   });
 
   const onSubmit = async values => {
+    const { email, password } = values;
+
     try {
-      await dispatch(logIn(values)).unwrap();
+      await signInWithEmailAndPassword(auth, email, password);
       toast.success('Successfully logged in!');
       reset();
       navigate('/nannies');
     } catch (error) {
-      toast.error(error?.message || 'Log in failed');
+      toast.error(error.message || 'Log in failed');
     }
   };
 
@@ -78,18 +74,16 @@ export default function LoginForm() {
           <Controller
             name="email"
             control={control}
-            render={({ field }) => {
-              return (
-                <input
-                  {...field}
-                  className={emailClassName}
-                  type="email"
-                  placeholder="Email"
-                  autoComplete="email"
-                  aria-invalid={errors.email ? 'true' : 'false'}
-                />
-              );
-            }}
+            render={({ field }) => (
+              <input
+                {...field}
+                className={emailClassName}
+                type="email"
+                placeholder="Email"
+                autoComplete="email"
+                aria-invalid={errors.email ? 'true' : 'false'}
+              />
+            )}
           />
           {errors.email && (
             <span className={css.errorMessage}>{errors.email.message}</span>
@@ -100,18 +94,16 @@ export default function LoginForm() {
             <Controller
               name="password"
               control={control}
-              render={({ field }) => {
-                return (
-                  <input
-                    {...field}
-                    type={showPassword ? 'text' : 'password'}
-                    className={passwordClassName}
-                    autoComplete="current-password"
-                    placeholder="Password"
-                    aria-invalid={errors.password ? 'true' : 'false'}
-                  />
-                );
-              }}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type={showPassword ? 'text' : 'password'}
+                  className={passwordClassName}
+                  autoComplete="current-password"
+                  placeholder="Password"
+                  aria-invalid={errors.password ? 'true' : 'false'}
+                />
+              )}
             />
             <div
               className={css.iconeye}

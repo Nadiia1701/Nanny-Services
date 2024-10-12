@@ -1,10 +1,18 @@
 import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '../../redux/auth/selectors';
+import { useEffect, useState } from 'react';
+import { auth } from '../../utils/firebase'; // Убедитесь, что путь к auth корректный
 import css from './Navigation.module.css';
 
 export default function Navigation() {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(user => {
+      setIsLoggedIn(!!user); // Устанавливаем true, если пользователь существует
+    });
+
+    return () => unsubscribe(); // Отписка при размонтировании
+  }, []);
 
   return (
     <nav className={css.container}>
