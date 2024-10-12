@@ -12,8 +12,6 @@ import {
   selectHasNextPage,
   selectLastKey,
 } from '../../redux/nannies/selectors';
-import FilterDropdown from '../../components/FilterDropdown/FilterDropdown';
-import { selectSortBy } from '../../redux/filter/selectors'; // импортируем селектор
 
 export default function NanniesPage() {
   const dispatch = useDispatch();
@@ -23,25 +21,22 @@ export default function NanniesPage() {
   const nannies = useSelector(selectNannies);
   const hasNextPage = useSelector(selectHasNextPage);
   const limit = 3;
-  const filter = useSelector(selectSortBy); // получение текущего значения фильтра
 
   useEffect(() => {
     if (nannies.length === 0) {
-      dispatch(fetchNannies({ lastKey: null, limit, filter }));
+      dispatch(fetchNannies({ lastKey: null, limit }));
     }
-    console.log('Fetched Nannies:', nannies); // Добавьте это логирование
-  }, [dispatch, nannies, lastKey, hasNextPage, limit, filter]);
+  }, [dispatch, nannies, lastKey, hasNextPage, limit]);
 
   const loadMoreNannies = () => {
     if (hasNextPage && !isLoading) {
-      dispatch(fetchNannies({ lastKey: lastKey || null, limit, filter })); // Убедитесь, что lastKey передается корректно
+      dispatch(fetchNannies({ lastKey: lastKey || null, limit }));
     }
   };
 
   return (
     <div>
       {error && <ErrorMessage />}
-      <FilterDropdown />
       {nannies.length > 0 && <NanniesList />}
       <div className={css.btnContainer}>
         {hasNextPage && (

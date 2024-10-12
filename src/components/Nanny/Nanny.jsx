@@ -72,7 +72,7 @@ export default function Nanny({
                   </span>
                 </p>
               </div>
-              <FaRegHeart className={css.heartIcon} />
+              <FaRegHeart className={css.iconHeart} />
             </div>
           </div>
 
