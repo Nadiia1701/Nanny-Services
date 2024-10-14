@@ -1,3 +1,4 @@
+/* Default (Desktop) Styles */
 .container {
     width: 1376px;
     height: 730px;
@@ -23,26 +24,3 @@
 }
 
 
-/* @media (max-width: 768px) {
-    .container {
-        width: 765px;
-        height: auto;
-    }
-
-    .homeBackground {
-        background-size: cover;
-        background-position: center;
-    }
-}
-
-@media (max-width: 1440px) {
-    .container {
-        width: 1400px;
-        height: auto;
-    }
-
-    .homeBackground {
-        background-size: cover;
-        background-position: center;
-    }
-} */
