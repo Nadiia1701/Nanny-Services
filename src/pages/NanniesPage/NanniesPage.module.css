@@ -1,29 +1,46 @@
-/* NanniesPage.module.css */
-
 .filterDropdown {
     display: flex;
     flex-direction: column;
     width: 226px;
-    margin-bottom: 1rem;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    margin-left: 95px;
 }
 
-.filterDropdown label {
+.filterLabel {
+    font-family: 'Arimo', sans-serif;
+    font-weight: 500;
     font-size: 14px;
-    color: #555;
-    margin-bottom: 0.5rem;
+    line-height: 129%;
+    color: #8a8a89;
+    margin-bottom: 10px;
 }
 
-.filterDropdownSelect {
+.filterSelect {
+    width: 226px;
+    height: 49px;
     background-color: #043927;
-    color: white;
-    padding: 0.5rem 1rem;
+    padding: 10px;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 14px;
     cursor: pointer;
+    font-family: 'Arimo', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    color: #fbfbfb;
 }
 
-.filterDropdownSelect option {
-    color: black;
+.option {
+    font-family: 'Arimo', sans-seriif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 111%;
+    color: rgba(17, 16, 28, 0.3);
     background-color: white;
+}
+
+.option:hover,
+.option:focus {
+color: rgba(17, 16, 28, 1);
 }

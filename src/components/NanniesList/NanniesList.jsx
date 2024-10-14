@@ -24,7 +24,10 @@ export default function NanniesList({ selectedFilter }) {
 
     if (snapshot.exists()) {
       const data = snapshot.val();
-      const nanniesArray = Object.values(data);
+      const nanniesArray = Object.values(data).map(nanny => ({
+        ...nanny,
+        id: nanny.name, // or a unique property
+      }));
 
       setNannies(prevNannies => [
         ...prevNannies,
@@ -90,8 +93,8 @@ export default function NanniesList({ selectedFilter }) {
         </div>
       ) : (
         <>
-          {filteredNannies.map((nanny, index) => (
-            <Nanny key={index} item={nanny} />
+          {filteredNannies.map(nanny => (
+            <Nanny key={nanny.id} item={nanny} />
           ))}
 
           {hasMore && (

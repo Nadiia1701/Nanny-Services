@@ -1,0 +1,39 @@
+.wrapper {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.button {
+    border: 1px solid rgba(251, 251, 251, 0.4);
+    border-radius: 30px;
+    padding: 14px 39px;
+    width: 124px;
+    background-color: transparent;
+    text-wrap: nowrap;
+    padding: 14px 28px;
+    color: #fbfbfb;
+}
+
+.button:hover {
+    border: transparent;
+    background-color: rgba(16, 57, 49, 1);
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border: 1px solid white;
+    border-radius: 12px;
+    background-color: white;
+
+}
+
+.username {
+    font-family: 'Arimo', sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 111%;
+    letter-spacing: -0.01em;
+    color: #fbfbfb;
+}

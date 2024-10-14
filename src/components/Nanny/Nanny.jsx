@@ -1,57 +1,38 @@
-import css from './Nanny.module.css';
 import { useState, useEffect } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { FaMapLocationDot } from 'react-icons/fa6';
-import { GoHeartFill } from 'react-icons/go';
-import { GoHeart } from 'react-icons/go';
+import { GoHeartFill, GoHeart } from 'react-icons/go';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { toast } from 'react-toastify';
 import NannyReviews from '../NannyReviews/NannyReviews';
 import MakeAnAppointmentBtn from '../MakeAnAppointmentBtn/MakeAnAppointmentBtn';
+import { useFavorites } from '../FavoritesContext';
+import css from './Nanny.module.css';
 
 export default function Nanny({ item }) {
   const [showReviews, setShowReviews] = useState(false);
-  const [isVisibleHeart, setVisibleHeart] = useState(false);
   const [user, setUser] = useState(null);
+  const { favorites, addFavorite, removeFavorite } = useFavorites();
 
-  const toggleReviews = () => {
-    setShowReviews(!showReviews);
-  };
+  const isFavorite = favorites.some(favNanny => favNanny.id === item.id);
 
   useEffect(() => {
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    const isFavorite = favorites.some(favNanny => favNanny.id === item.id);
-    setVisibleHeart(isFavorite);
-
     const unsubscribe = onAuthStateChanged(auth, currentUser => {
       setUser(currentUser);
-      if (!user) {
-        setVisibleHeart(false);
-      }
     });
-
     return () => unsubscribe();
-  }, [item.id, user]);
+  }, []);
 
   const handleClickButtonHeart = () => {
     if (!user) {
       toast.error('This action is available for authorized users only.');
       return;
     }
-
-    const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-    if (isVisibleHeart) {
-      const updatedFavorites = favorites.filter(
-        favNanny => favNanny.id !== item.id
-      );
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      setVisibleHeart(false);
+    if (isFavorite) {
+      removeFavorite(item.id);
     } else {
-      favorites.push(item);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      setVisibleHeart(true);
+      addFavorite(item);
     }
   };
 
@@ -66,7 +47,6 @@ export default function Nanny({ item }) {
     ) {
       age--;
     }
-
     return age;
   }
 
@@ -74,7 +54,7 @@ export default function Nanny({ item }) {
     <div className={css.container}>
       <div className={css.card}>
         <div className={css.imageFrame}>
-          <img src={item.avatar_url} alt={name} className={css.image} />
+          <img src={item.avatar_url} alt={item.name} className={css.image} />
         </div>
 
         <div className={css.details}>
@@ -107,7 +87,7 @@ export default function Nanny({ item }) {
                 className={css.heartContainer}
                 onClick={handleClickButtonHeart}
               >
-                {isVisibleHeart ? (
+                {isFavorite ? (
                   <GoHeartFill className={css.iconFillHeart} />
                 ) : (
                   <GoHeart className={css.iconHeart} />
@@ -135,7 +115,7 @@ export default function Nanny({ item }) {
               <span className={css.featureName}>Characters: </span>
               <span className={css.featureValue}>
                 {item.characters.join(', ')}
-              </span>{' '}
+              </span>
             </div>
             <div className={css.feature}>
               <span className={css.featureName}>Education: </span>
@@ -153,7 +133,10 @@ export default function Nanny({ item }) {
                 avatarUrl={item.avatar_url}
               />
             ) : (
-              <button onClick={toggleReviews} className={css.readMoreBtn}>
+              <button
+                onClick={() => setShowReviews(!showReviews)}
+                className={css.readMoreBtn}
+              >
                 Read more
               </button>
             )}

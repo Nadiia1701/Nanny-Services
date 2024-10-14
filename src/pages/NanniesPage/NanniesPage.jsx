@@ -30,10 +30,12 @@ export default function NanniesPage() {
   return (
     <div className={css.container}>
       <div className={css.filterDropdown}>
-        <label htmlFor="filterSelect">Filters</label>
+        <label htmlFor="filterSelect" className={css.filterLabel}>
+          Filters
+        </label>
         <select
           id="filterSelect"
-          className={css.filterDropdownSelect}
+          className={css.filterSelect}
           value={selectedFilter}
           onChange={e => setSelectedFilter(e.target.value)}
         >
@@ -55,7 +57,9 @@ export default function NanniesPage() {
           <option value="not_popular" className={css.option}>
             Not popular
           </option>
-          <option value="">Show all</option>
+          <option value="" className={css.option}>
+            Show all
+          </option>
         </select>
       </div>
       <NanniesList selectedFilter={selectedFilter} />

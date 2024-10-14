@@ -24,9 +24,9 @@ export default function UserMenu() {
 
   return (
     <div className={css.wrapper}>
-      <FiUser size={24} />
+      <FiUser className={css.avatar} size={24} />
       {user && <p className={css.username}>{user.displayName}</p>}
-      <button type="button" onClick={handleLogout}>
+      <button type="button" onClick={handleLogout} className={css.button}>
         Logout
       </button>
     </div>
