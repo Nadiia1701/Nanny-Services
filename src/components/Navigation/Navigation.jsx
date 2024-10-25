@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { auth } from '../../utils/firebase'; // Убедитесь, что путь к auth корректный
+import { auth } from '../../../firebase'; // Убедитесь, что путь к auth корректный
 import css from './Navigation.module.css';
 
 export default function Navigation() {
@@ -8,10 +8,10 @@ export default function Navigation() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setIsLoggedIn(!!user); // Устанавливаем true, если пользователь существует
+      setIsLoggedIn(!!user);
     });
 
-    return () => unsubscribe(); // Отписка при размонтировании
+    return () => unsubscribe();
   }, []);
 
   return (

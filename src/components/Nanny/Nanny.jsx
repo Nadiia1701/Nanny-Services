@@ -3,7 +3,7 @@ import { AiFillStar } from 'react-icons/ai';
 import { FaMapLocationDot } from 'react-icons/fa6';
 import { GoHeartFill, GoHeart } from 'react-icons/go';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../utils/firebase';
+import { auth } from '../../../firebase';
 import { toast } from 'react-toastify';
 import NannyReviews from '../NannyReviews/NannyReviews';
 import MakeAnAppointmentBtn from '../MakeAnAppointmentBtn/MakeAnAppointmentBtn';

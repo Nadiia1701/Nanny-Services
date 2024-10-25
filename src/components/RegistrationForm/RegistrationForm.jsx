@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../../utils/firebase'; // Убедитесь, что путь к файлу с конфигурацией Firebase корректный
+import { auth } from '../../../firebase';
 import css from './RegistrationForm.module.css';
 
 const schema = Yup.object().shape({

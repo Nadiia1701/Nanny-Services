@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import { auth } from '../utils/firebase'; // убедитесь, что путь к auth корректный
+import { auth } from '../../firebase';
 
 export default function PrivateRoute({ component: Component, redirectTo }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(null); // null для начального состояния (до проверки)
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setIsLoggedIn(!!user); // Если пользователь существует, значит он залогинен
+      setIsLoggedIn(!!user);
     });
 
-    return () => unsubscribe(); // Отписка от слушателя при размонтировании
+    return () => unsubscribe();
   }, []);
 
-  // Пока состояние авторизации загружается, можно показать индикатор загрузки
   if (isLoggedIn === null) {
     return <div>Loading...</div>;
   }

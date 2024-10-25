@@ -1,15 +1,14 @@
 import { useFavorites } from '../../components/FavoritesContext';
 import Nanny from '../../components/Nanny/Nanny';
 import { useState } from 'react';
-import css from './FavoritesPage.module.css'; // Assuming you have some CSS styles for this component
+import css from './FavoritesPage.module.css';
 
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
   const [selectedFilter, setSelectedFilter] = useState('');
 
-  // Function to filter favorites based on the selected filter
   const filteredFavorites = () => {
-    let filtered = [...favorites]; // Create a shallow copy of the favorites array
+    let filtered = [...favorites];
 
     switch (selectedFilter) {
       case 'name-asc':
@@ -21,11 +20,11 @@ export default function FavoritesPage() {
       case 'price_greater_than_10':
         return filtered.filter(nanny => nanny.price_per_hour > 10);
       case 'popular':
-        return filtered.sort((a, b) => b.rating - a.rating); // Sort from high to low rating
+        return filtered.sort((a, b) => b.rating - a.rating);
       case 'not_popular':
-        return filtered.sort((a, b) => a.rating - b.rating); // Sort from low to high rating
+        return filtered.sort((a, b) => a.rating - b.rating);
       default:
-        return filtered; // Show all
+        return filtered;
     }
   };
 

@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import toast, { Toaster } from 'react-hot-toast';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../utils/firebase'; // Убедитесь, что путь к файлу с конфигурацией Firebase корректный
+import { auth } from '../../../firebase';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
 import css from './LogInForm.module.css';

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth } from '../../utils/firebase';
+import { auth } from '../../../firebase';
 import Navigation from '../Navigation/Navigation';
 import UserMenu from '../UserMenu/UserMenu';
 import AuthBtn from '../AuthBtn/AuthBtn';
@@ -10,12 +10,9 @@ export default function AppBar({ navClass }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Слушаем изменения состояния аутентификации пользователя
     const unsubscribe = auth.onAuthStateChanged(user => {
-      setIsLoggedIn(!!user); // если user существует, значит пользователь залогинен
+      setIsLoggedIn(!!user);
     });
-
-    // Отписываемся от слушателя при размонтировании компонента
     return () => unsubscribe();
   }, []);
 

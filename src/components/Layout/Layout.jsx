@@ -13,8 +13,8 @@ export default function Layout({ children }) {
     : `${css.container} ${css.defaultBackground}`;
 
   const navClass = isHomePage
-    ? `${css.homeBackground}` // Используйте homeBackground для главной страницы
-    : `${css.navBackground}`; // navBackground для остальных страниц
+    ? `${css.homeBackground}`
+    : `${css.navBackground}`;
 
   return (
     <div className={containerClass}>

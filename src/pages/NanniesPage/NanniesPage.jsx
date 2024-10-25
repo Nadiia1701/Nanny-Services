@@ -2,7 +2,7 @@ import css from './NanniesPage.module.css';
 import { useState, useEffect } from 'react';
 import NanniesList from '../../components/NanniesList/NanniesList';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../utils/firebase';
+import { auth } from '../../../firebase';
 
 export default function NanniesPage() {
   const [selectedFilter, setSelectedFilter] = useState('');

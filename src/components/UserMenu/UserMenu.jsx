@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { auth } from '../../utils/firebase'; // Убедитесь, что путь к auth корректный
+import { auth } from '../../../firebase'; // Убедитесь, что путь к auth корректный
 import { FiUser } from 'react-icons/fi';
 import css from './UserMenu.module.css';
 
@@ -8,10 +8,10 @@ export default function UserMenu() {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(currentUser => {
-      setUser(currentUser); // Устанавливаем текущего пользователя, если он залогинен
+      setUser(currentUser);
     });
 
-    return () => unsubscribe(); // Отписка при размонтировании
+    return () => unsubscribe();
   }, []);
 
   const handleLogout = async () => {

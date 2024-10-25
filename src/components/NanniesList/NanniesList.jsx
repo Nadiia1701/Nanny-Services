@@ -3,7 +3,7 @@ import Loader from '../Loader/Loader';
 import css from './NanniesList.module.css';
 import { useEffect, useState } from 'react';
 import { getDatabase, ref, get, query, limitToFirst } from 'firebase/database';
-import { app } from '../../utils/firebase';
+import { app } from '../../../firebase';
 
 const database = getDatabase(app);
 const ITEMS_PER_PAGE = 3;
@@ -26,7 +26,7 @@ export default function NanniesList({ selectedFilter }) {
       const data = snapshot.val();
       const nanniesArray = Object.values(data).map(nanny => ({
         ...nanny,
-        id: nanny.name, // or a unique property
+        id: nanny.name,
       }));
 
       setNannies(prevNannies => [
@@ -50,7 +50,6 @@ export default function NanniesList({ selectedFilter }) {
   useEffect(() => {
     let filtered = [...nannies];
 
-    // Фильтрация и сортировка в зависимости от выбранного фильтра
     switch (selectedFilter) {
       case 'name-asc':
         filtered.sort((a, b) => a.name.localeCompare(b.name));
@@ -65,10 +64,10 @@ export default function NanniesList({ selectedFilter }) {
         filtered = filtered.filter(nanny => nanny.price_per_hour >= 10);
         break;
       case 'popular':
-        filtered.sort((a, b) => b.rating - a.rating); // Сортировка от высокого рейтинга к низкому
+        filtered.sort((a, b) => b.rating - a.rating);
         break;
       case 'not_popular':
-        filtered.sort((a, b) => a.rating - b.rating); // Сортировка от низкого рейтинга к высокому
+        filtered.sort((a, b) => a.rating - b.rating);
         break;
       default:
         break;
